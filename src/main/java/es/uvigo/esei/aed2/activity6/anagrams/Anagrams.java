@@ -1,5 +1,8 @@
 package es.uvigo.esei.aed2.activity6.anagrams;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,8 +37,22 @@ import java.util.Set;
 public class Anagrams {
 
   public static Set<Set<String>> getAnagrams(List<String> words) {
-    // TODO: Implementa la obtención de los conjuntos de anagramas a partir de la agrupación
-    return null;
+    Set<Set<String>> set = new HashSet<>();
+    HashMap<String, Set<String>> map = new HashMap<>();
+    for (String word : words) {
+      Set<String> wSet = new HashSet<String>();
+      wSet.add(word);
+      Set<String> temp = map.put(hashFunc(word),wSet);
+      if (temp != null){
+        wSet.addAll(temp);
+      }
+    }
+    return set;
+  }
+  private static String hashFunc(String str){
+    List<Character> chars = str.chars().mapToObj(z->((char) z)).toList();
+    chars.sort((o1, o2) -> (o1.compareTo(o2)));
+    return chars.toString();
   }
 
 }

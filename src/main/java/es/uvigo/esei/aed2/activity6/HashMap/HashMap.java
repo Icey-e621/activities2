@@ -1,10 +1,12 @@
 package es.uvigo.esei.aed2.activity6.HashMap;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /*-
  * #%L
@@ -45,45 +47,90 @@ public class HashMap<K,V> implements Map<K,V> {
     this(CAPACITY);
   }
 
-  @SuppressWarnings("unchecked")
   private HashMap(int capacity) throws IllegalArgumentException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    size = 0;
+    List<Pair<K, V>>[] map = (LinkedList<Pair<K, V>>[]) new Object[capacity];
   }
 
   // Métodos lanzan excepción
   @Override
   public int size() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return size;
   }
 
   @Override
-  public V get(K key) {
-    throw new UnsupportedOperationException("Not supported yet.");
+  public V get(K key) { 
+    V value = null;
+    for (Pair<K,V> pair : map[this.hashFunc(key)]) {
+      if (key.equals(pair.k)) value = pair.v;
+    }
+    return value;
   }
 
   @Override
   public void add(K key, V value) throws NullPointerException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (key == null || value == null) throw new NullPointerException(" Tried to add null value to hashmap");
+    map[hashFunc(key)].add(new Pair<K,V>(key, value));
+    size++;
   }
 
   @Override
   public V remove(K key) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    V value = null;
+    List<Pair<K, V>> list = map[hashFunc(key)];
+    for (int i = 0; i < list.size(); i++) {
+      if (key.equals(list.get(i).k)){
+        value = list.remove(i).v;
+        size--;
+      }
+    }
+    return value;
   }
 
   @Override
   public Set<K> getKeys() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    Set<K> set = new HashSet<>();
+    for (List<Pair<K,V>> list : map) {
+      list.forEach(z->set.add(z.k));
+    }
+    return set;
   }
 
   @Override
   public Iterator<V> getValues() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    Set<V> set = new HashSet<>();
+    for (List<Pair<K,V>> list : map) {
+      list.forEach(z->set.add(z.v));
+    }
+    return new MyIterator();
   }
+
 
   @Override
   public void clear() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    size = 0;
+    for (List<Pair<K,V>> list : map) {
+      list.clear();
+    }
+  }
+
+  private int hashFunc(K key){ //calculates index
+    return key.hashCode() % map.length;
+  }
+  private class MyIterator implements Iterator<V>{   
+    private Iterator<K> keys = getKeys().iterator(); 
+    @Override
+    public boolean hasNext() {
+        return keys.hasNext();
+    }
+    @Override
+    public V next() {
+        return get(keys.next());
+    }
+    public void remove() {
+        // TODO Auto-generated method stub
+        Iterator.super.remove();
+    }
   }
 
   private static class Pair<K, V> {
