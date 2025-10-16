@@ -28,15 +28,25 @@ package es.uvigo.esei.aed2.activity4;
  */
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
-
+  private Logger MyLogger = Logger.getLogger(BinaryMaxHeap.class.getName());
   // Exercise 1
-  private final ArrayList<T> array;
+  private final ArrayList<T> heap;
 
   public BinaryMaxHeap() {
-    this.array = new ArrayList<>();
-    this.array.add(0, null);
+    this.heap = new ArrayList<>();
+    this.heap.add(0, null);
+  }
+  private static int getLeftChild(int pos){
+    return pos*2;
+  }
+  private static int getRightChild(int pos){
+    return pos*2+1;
+  }
+  private static int getParent(int pos){
+    return (int)(pos/2);
   }
 
   /**
@@ -47,7 +57,7 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   @Override
   public boolean isEmpty() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return heap.size() == 1;
   }
 
   /**
@@ -58,7 +68,10 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   @Override
   public T getMaxValue() throws HeapEmptyException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (!isEmpty()){
+      return heap.get(1);
+    }
+    throw new HeapEmptyException("Could not get max value of empty BinaryHexMap");
   }
 
   /**
@@ -69,7 +82,17 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   @Override
   public T removeMaxValue() throws HeapEmptyException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (!isEmpty()){
+      T max = heap.get(1);
+      heap.set(1, null);
+      if (heap.size() > 2){
+        sink(1);
+      }else{
+        heap.removeLast();
+      }
+      return max;
+    }
+    throw new HeapEmptyException("Could not get max value of empty BinaryHexMap");
   }
 
   /**
@@ -79,7 +102,38 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    * @param hollow la posición del elemento a mover.
    */
   private void sink(int hollow) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (!heap.isEmpty()) {
+      if (heap.get(hollow) == null) {
+        heap.set(hollow, heap.remove(heap.size() - 1));
+      }
+      int child = getGreaterChild(hollow);
+      if (child != hollow) {
+        T temp = heap.get(hollow);
+        heap.set(hollow, heap.get(child));
+        heap.set(child, temp);
+        sink(child);
+      }
+    }
+  }
+
+  private int getGreaterChild(int pos){
+    int startingpos = pos;
+    if (heap.get(pos) == null){
+      if (getLeftChild(pos) < heap.size()){
+        if (getRightChild(pos) < heap.size()){
+          return heap.get(getRightChild(pos)).compareTo(heap.get(getLeftChild(pos))) > 0 ? getRightChild(pos) : getLeftChild(pos);
+        }else{
+          return getLeftChild(pos);
+        }
+      }
+    }
+    if (getLeftChild(startingpos) < heap.size()){
+      pos = heap.get(getLeftChild(pos)).compareTo(heap.get(pos)) > 0 ? getLeftChild(pos) : pos;
+      if (getRightChild(startingpos) < heap.size()){
+        pos = heap.get(getRightChild(startingpos)).compareTo(heap.get(pos)) > 0 ? getRightChild(startingpos) : pos;
+      }
+    }
+    return pos;
   }
 
   /**
@@ -90,7 +144,16 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   @Override
   public void add(T value) throws NullPointerException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (value == null){
+      throw new NullPointerException("Cant add null to Heap");
+    }
+    heap.add(value);
+    int child = heap.size()-1;
+    while (child > 1 && heap.get(child).compareTo(heap.get(getParent(child))) > 0){
+      heap.set(child, heap.get(getParent(child)));
+      heap.set(getParent(child), value); 
+      child = child/2;
+    }
   }
 
   /**
@@ -98,7 +161,8 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   @Override
   public void clear() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    heap.clear();
+    heap.add(null);
   }
 
   /**
@@ -109,7 +173,10 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   @Override
   public void insert(T value) throws NullPointerException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (value == null){
+      throw new NullPointerException("Cant add null to Heap");
+    }
+    heap.add(value);
   }
 
   /**
@@ -117,7 +184,11 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   @Override
   public void orderHeap() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    int start = getParent(heap.size());
+    for (int i = start;i>0;i--){
+      MyLogger.info("Now calling sink on:" + i);
+      sink(i);
+    }
   }
 
 }
