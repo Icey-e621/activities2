@@ -103,14 +103,21 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
    */
   private void sink(int hollow) {
     if (!heap.isEmpty()) {
+      // if  sinking null
       if (heap.get(hollow) == null) {
+        // sink always null -><- last element
         heap.set(hollow, heap.remove(heap.size() - 1));
+        //keep sinking to rearrange
       }
+
       int child = getGreaterChild(hollow);
+
       if (child != hollow) {
         T temp = heap.get(hollow);
-        heap.set(hollow, heap.get(child));
+        
+        heap.set(hollow, heap.get(child)); // change hollow-><- child
         heap.set(child, temp);
+
         sink(child);
       }
     }
@@ -118,19 +125,24 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
 
   private int getGreaterChild(int pos){
     int startingpos = pos;
-    if (heap.get(pos) == null){
+     
+    if (heap.get(pos) == null){ // if current position is null dont continue ( proably useless as is but better safe than sorry)
       if (getLeftChild(pos) < heap.size()){
         if (getRightChild(pos) < heap.size()){
+
           return heap.get(getRightChild(pos)).compareTo(heap.get(getLeftChild(pos))) > 0 ? getRightChild(pos) : getLeftChild(pos);
+       
         }else{
           return getLeftChild(pos);
         }
       }
     }
-    if (getLeftChild(startingpos) < heap.size()){
-      pos = heap.get(getLeftChild(pos)).compareTo(heap.get(pos)) > 0 ? getLeftChild(pos) : pos;
-      if (getRightChild(startingpos) < heap.size()){
-        pos = heap.get(getRightChild(startingpos)).compareTo(heap.get(pos)) > 0 ? getRightChild(startingpos) : pos;
+    if (getLeftChild(startingpos) < heap.size()){ // if has leftchild
+
+      pos = heap.get(getLeftChild(pos)).compareTo(heap.get(pos)) > 0 ? getLeftChild(pos) : pos; // pos = max(leftchild, current)
+      if (getRightChild(startingpos) < heap.size()){ // if has rightchild
+
+        pos = heap.get(getRightChild(startingpos)).compareTo(heap.get(pos)) > 0 ? getRightChild(startingpos) : pos; // pos = max (leftchild,current,rightchild)
       }
     }
     return pos;
@@ -147,8 +159,10 @@ public class BinaryMaxHeap<T extends Comparable<T>> implements MaxHeap<T> {
     if (value == null){
       throw new NullPointerException("Cant add null to Heap");
     }
-    heap.add(value);
+
+    heap.add(value); //add to array
     int child = heap.size()-1;
+
     while (child > 1 && heap.get(child).compareTo(heap.get(getParent(child))) > 0){
       heap.set(child, heap.get(getParent(child)));
       heap.set(getParent(child), value); 

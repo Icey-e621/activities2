@@ -55,12 +55,38 @@ public class LinkedBinaryTreeWithFunctional<T> extends LinkedBinaryTree<T> imple
 
   @Override
   public void forEach(Consumer<T> action, Predicate<T> filter) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    forEach(action, filter, this);
   }
+  private void forEach(Consumer<T> action, Predicate<T> filter, BinaryTree<T> tree) {
+    if (!tree.isEmpty()){
+      if (filter.test(tree.getRootValue())){
+        action.accept(tree.getRootValue());
+      }
+      if (tree.hasLeftChild()){
+        forEach(action, filter, tree.getLeftChild());
+      }
+      if (tree.hasRightChild()){
+        forEach(action, filter, tree.getRightChild());
+      }
+    }
+  } 
 
   @Override
   public <E> BinaryTree<E> map(Function<T, E> mapper) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return map(mapper, this);
+  }
+  private <E> BinaryTree<E> map(Function<T, E> mapper, BinaryTree<T> treeOrgininal) {
+    BinaryTree<E> treeDupTree = new LinkedBinaryTree<E>();
+    if (!treeOrgininal.isEmpty()){
+      treeDupTree = new LinkedBinaryTree<E>(mapper.apply(treeOrgininal.getRootValue()));
+      if (treeOrgininal.hasLeftChild()){
+        treeDupTree.setLeftChild(map(mapper,treeOrgininal.getLeftChild()));
+      }
+      if (treeOrgininal.hasRightChild()){
+        treeDupTree.setRightChild(map(mapper,treeOrgininal.getRightChild()));
+      }
+    }
+    return treeDupTree;
   }
 
 }

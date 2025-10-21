@@ -38,8 +38,10 @@ public class Activity1 {
    * @return el factorial de number.
    */
   public static long factorial(int number) {
-    // TODO: Implementa el cálculo del factorial de number de forma recursiva
-    return 0;
+    if (number<=1){
+      return 1;
+    }
+    return number*factorial(number-1);
   }
 
   /**
@@ -49,8 +51,10 @@ public class Activity1 {
    * @return el cuadrado de number.
    */
   public static int square(int number) {
-    // TODO: Implementa el cálculo recursivo del cuadrado de number
-    return 0;
+    if (number == 0)
+      return 0; // base case
+
+   return square(number-1) + number + number - 1;
   }
 
   /**
@@ -60,8 +64,10 @@ public class Activity1 {
    * @return la suma de los dígitos de number.
    */
   public static int sumDigits(int number) {
-    // TODO: Implementa la suma recursiva de los dígitos de number
-    return 0;
+    if (number <= 0){
+      return 0;
+    }
+    return number % 10 + sumDigits((int)number/10);
   }
 
   /**
@@ -72,8 +78,10 @@ public class Activity1 {
    * @return el MCD de number1 y number2
    */
   public static int mcd(int number1, int number2) {
-    // TODO: Implementa el cálculo recursivo del MCD de number1 y number2
-    return 0;
+    if (number1 == number2){
+      return number1;
+    }
+    return number1 < number2 ? mcd(number2-number1, number1) : mcd(number1-number2, number1);
   }
 
   /**
@@ -83,8 +91,10 @@ public class Activity1 {
    * @return el string invertido.
    */
   public static String invert(String str) {
-    // TODO: Implementa la inversión recursiva de un String
-    return null;
+    if (str == ""){
+      return "";
+    }
+    return invert(str.substring(1,str.length())) + str.charAt(0);
   }
 
   /**
@@ -94,8 +104,15 @@ public class Activity1 {
    * @return suma todos los valores del array.
    */
   public static int addValues(int[] values) {
-    // TODO: Implementa la suma recursiva de los valores de un array
-    return 0;
+    if (values.length == 1){
+      return values[0];
+    }
+    int [] newvals = new int[values.length-1];
+    for (int i = 0; i < newvals.length; i++) {
+      newvals[i] = values[i];
+    }
+    newvals[newvals.length-1] += values[values.length-1];
+    return addValues(newvals);
   }
 
   /**
@@ -104,7 +121,15 @@ public class Activity1 {
    * @param values array usado para el proceso de inversion.
    */
   public static void invertArray(int[] values) {
-    // TODO: Implementa la inversión recursiva de un array
+    invertArray2(values, (values.length/2)-1);
+  }
+  private static void invertArray2(int[] valores, int left){
+    if (left >= 0){
+      valores[left] ^= valores[valores.length-left-1];
+      valores[valores.length-left-1] ^= valores[left];
+      valores[left] ^= valores[valores.length-left-1];
+      invertArray2(valores, left-1);
+    }
   }
 
   /**
@@ -114,8 +139,17 @@ public class Activity1 {
    * @return el menor entero del array.
    */
   public static int minimum(int[] values) {
-    // TODO: Implementa la búsqueda recursiva del menor valor de un array
-    return 0;
+    if (values.length == 1){
+      return values[0];
+    }
+    int [] newvals = new int[values.length-1];
+    for (int i = 0; i < newvals.length; i++) {
+      newvals[i] = values[i];
+    }
+    if (values[values.length-1] < newvals[newvals.length-1]){
+      newvals[newvals.length-1] = values[values.length-1];
+    }
+    return minimum(newvals);
   }
 
   /**
@@ -126,9 +160,19 @@ public class Activity1 {
    * @return el indice de number en el array o -1 si no está.
    */
   public static int binarySearch(double[] values, double number) {
-    // TODO: Implementa la búsqueda binaria recursiva en un array
-    return -1;
+    return binarySearch(values, number,0,values.length-1);
   }
+  public static int binarySearch(double[] values, double number, int start,int end) {
+    int m = (start + end )/ 2;
+    if (values[m] < number){
+      return binarySearch(values, number,m,end);
+    }else if (values[m]> number){
+      return binarySearch(values, number,start,m);
+    }
+    else if (start == end) return -1;
+    return m;
+  }
+  
 
   /**
    * exercise 10
@@ -138,7 +182,15 @@ public class Activity1 {
    * @return una nueva pila con los mismos elementos que la original.
    */
   public static <T> Stack<T> copyStack(Stack<T> stack) {
-    // TODO: Implementa la copia recursiva de una pila
-    return new Stack<>();
+    return copyStack(stack,new Stack<>(), stack.size());
+  }
+  public static <T> Stack<T> copyStack(Stack<T> stack, Stack<T> ToRet, int left) {
+    if (left <= 0){
+      return ToRet;
+    }
+    T temp = stack.pop();
+    ToRet.addFirst(temp);
+    stack.addFirst(temp);
+    return copyStack(stack,ToRet,left-1);
   }
 }

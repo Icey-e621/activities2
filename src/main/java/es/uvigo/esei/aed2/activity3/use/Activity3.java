@@ -32,7 +32,24 @@ import es.uvigo.esei.aed2.tree.binary.BinaryTree;
 public class Activity3 {
   // exercise
   public static <T> T getParent(BinaryTree<T> tree, T value) {
-    // TODO: Implementa el método para obtener el padre de un nodo dado en el árbol binario
+    if (tree.isEmpty() || tree.getRootValue().equals(value) || !tree.contains(value)) return null;
+
+    if (tree.hasLeftChild() && tree.getLeftChild().contains(value)){
+      return getParent(tree.getLeftChild(), value,tree);
+    }
+    return getParent(tree.getRightChild(), value,tree);
+  }
+  private static <T> T getParent(BinaryTree<T> tree, T value, BinaryTree<T> Parent) {
+    if (tree.isEmpty()) return null;
+    if (tree.getRootValue().equals(value)) return Parent.getRootValue();
+
+    if (tree.hasLeftChild() && tree.getLeftChild().contains(value)){
+      return getParent(tree.getLeftChild(), value,tree);
+    }
+    
+    if (tree.hasRightChild() && tree.getRightChild().contains(value)){
+      return getParent(tree.getRightChild(), value,tree);
+    }
     return null;
   }
 }

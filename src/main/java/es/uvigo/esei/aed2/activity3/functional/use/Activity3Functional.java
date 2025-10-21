@@ -1,5 +1,6 @@
 package es.uvigo.esei.aed2.activity3.functional.use;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /*-
@@ -29,6 +30,7 @@ import java.util.List;
  * #L%
  */
 import es.uvigo.esei.aed2.activity3.functional.BinaryTreeWithFunctional;
+import es.uvigo.esei.aed2.activity3.functional.LinkedBinaryTreeWithFunctional;
 import es.uvigo.esei.aed2.tree.binary.BinaryTree;
 
 public class Activity3Functional {
@@ -40,7 +42,7 @@ public class Activity3Functional {
    * @param tree arbol binario con métodos funcionales
    */
   public static <T> void printAllValues(BinaryTreeWithFunctional<T> tree) {
-    // TODO: Implementa el método para mostrar todos los valores del árbol usando forEach
+    tree.forEach(System.out::println);
   }
 
   /**
@@ -50,8 +52,9 @@ public class Activity3Functional {
    * @return una lista con los valores pares del árbol de enteros
    */
   public static List<Integer> listEvenValues(BinaryTreeWithFunctional<Integer> tree) {
-    // TODO: Implementa el método para devolver una lista con los valores pares usando forEach y un predicado
-    return null;
+    List<Integer> list = new LinkedList<>();
+    tree.forEach(list::add, z->(z%2==0));
+    return list;
   }
 
   /**
@@ -60,7 +63,7 @@ public class Activity3Functional {
    * @param tree árbol binario de enteros con métodos funcionales
    */
   public static void printValuesGreaterThan30(BinaryTreeWithFunctional<Integer> tree) {
-    // TODO: Implementa el método para mostrar valores mayores de 30 usando forEach y un predicado
+    tree.forEach(System.out::println, z -> (z > 30));
   }
 
   /**
@@ -70,8 +73,8 @@ public class Activity3Functional {
    * @return un arbol binario con los valores triplicados.
    */
   public static BinaryTree<Integer> binaryTreeWithTripleValues(BinaryTreeWithFunctional<Integer> tree) {
-    // TODO: Implementa el método para devolver un árbol con los valores triplicados usando map
-    return null;
+    BinaryTree<Integer> mapped = tree.map(t -> (t*3));
+    return mapped;
   }
 
 }
