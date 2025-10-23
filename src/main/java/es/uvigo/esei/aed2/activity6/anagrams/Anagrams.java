@@ -47,6 +47,7 @@ public class Anagrams {
         wSet.addAll(temp);
       }
     }
+    map.values().forEach(z->set.add(z));
     return set;
   }
 
