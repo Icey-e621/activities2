@@ -49,7 +49,10 @@ public class HashMap<K,V> implements Map<K,V> {
 
   private HashMap(int capacity) throws IllegalArgumentException {
     size = 0;
-    List<Pair<K, V>>[] map = (LinkedList<Pair<K, V>>[]) new Object[capacity];
+    this.map = new List[capacity];
+    for (int i = 0;i<CAPACITY;i++) {
+      map[i] = new LinkedList<Pair<K, V>>();
+    }
   }
 
   // Métodos lanzan excepción
@@ -61,6 +64,7 @@ public class HashMap<K,V> implements Map<K,V> {
   @Override
   public V get(K key) { 
     V value = null;
+    if (key == null) return null;
     for (Pair<K,V> pair : map[this.hashFunc(key)]) {
       if (key.equals(pair.k)) value = pair.v;
     }
@@ -70,13 +74,24 @@ public class HashMap<K,V> implements Map<K,V> {
   @Override
   public void add(K key, V value) throws NullPointerException {
     if (key == null || value == null) throw new NullPointerException(" Tried to add null value to hashmap");
-    map[hashFunc(key)].add(new Pair<K,V>(key, value));
-    size++;
+    Pair<K,V> toPair = new Pair<K,V>(key, value);
+    boolean found = false;
+    for (Pair<K,V> pair : map[hashFunc(key)]) {
+      if (pair.k.equals(key)){
+        pair.setValue(value);
+        found = true;
+      }
+    }
+    if (!found){
+      map[hashFunc(key)].add(new Pair<K,V>(key, value));
+      size++;
+    }
   }
 
   @Override
   public V remove(K key) {
     V value = null;
+    if (key == null) return null;
     List<Pair<K, V>> list = map[hashFunc(key)];
     for (int i = 0; i < list.size(); i++) {
       if (key.equals(list.get(i).k)){
