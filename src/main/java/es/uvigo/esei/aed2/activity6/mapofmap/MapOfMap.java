@@ -1,5 +1,7 @@
 package es.uvigo.esei.aed2.activity6.mapofmap;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /*-
@@ -49,62 +51,90 @@ public class MapOfMap<T, E> implements Graph<T, E> {
 
   @Override
   public boolean isEmpty() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return mapOfVertices.size() == 0;
   }
 
   @Override
   public int numberOfVertices() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return mapOfVertices.getKeys().size();
   }
 
   @Override
   public boolean containsVertex(Vertex<T> vertex) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return mapOfVertices.getKeys().contains(vertex);
   }
 
   @Override
   public boolean containsEdge(Vertex<T> source, Vertex<T> target, E label) {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (containsVertex(target) && containsVertex(source) && mapOfVertices.get(source).getKeys().contains(target) && mapOfVertices.get(source).get(target).equals(label)) return true;
+    return false;
   }
 
   @Override
   public Set<Vertex<T>> getVertices() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    return mapOfVertices.getKeys();
   }
 
   @Override
   public Set<Edge<T, E>> getEdges() {
-    throw new UnsupportedOperationException("Not supported yet.");
+    Set<Edge<T, E>> edges = new HashSet<>();
+    for (Vertex<T> vertex : mapOfVertices.getKeys()) {
+      for (Vertex<T> vertex2 : mapOfVertices.get(vertex).getKeys()){
+        edges.add(new Edge<T,E>(vertex, vertex2, mapOfVertices.get(vertex).get(vertex2)));
+      }
+    }
+    return edges;
   }
 
   @Override
   public Set<Vertex<T>> getAdjacentsVertex(Vertex<T> vertex) throws NullPointerException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (vertex == null) throw new NullPointerException("error here");
+    if (containsVertex(vertex)){
+      return this.mapOfVertices.get(vertex).getKeys();
+    }
+    return new HashSet<>();
   }
 
   @Override
   public boolean addVertex(Vertex<T> vertex) throws NullPointerException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (vertex == null) throw new NullPointerException("error here2");
+    if (mapOfVertices.getKeys().contains(vertex)){
+      return false;
+    }
+    this.mapOfVertices.add(vertex, new HashMap<Vertex<T>,E>());
+    return true;
   }
 
   @Override
   public boolean addEdge(Vertex<T> source, Vertex<T> target, E label) throws NullPointerException, IllegalArgumentException{
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (source.equals(target)) return false;
+    if (source == null || target == null) throw new NullPointerException("error here3");
+    if (!containsVertex(target) || !containsVertex(source)) throw new IllegalArgumentException("why u joining nothing with ur dad");
+    if (this.containsEdge(source, target, label)) return false;
+    this.mapOfVertices.get(source).add(target, label);
+    return true;
   }
 
   @Override
   public boolean removeVertex(Vertex<T> vertex) throws NullPointerException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (vertex == null) throw new NullPointerException("hey shall i say, stop giving me null");
+    if (!containsVertex(vertex)) return false;
+    this.mapOfVertices.remove(vertex);
+    mapOfVertices.getValues().forEachRemaining(mapOfVertices->mapOfVertices.remove(vertex));
+    return true;
   }
 
   @Override
   public boolean removeEdge(Vertex<T> source, Vertex<T> target, E label) throws NullPointerException {
-    throw new UnsupportedOperationException("Not supported yet.");
+    if (source == null || target == null) throw new NullPointerException("error here3");
+    if (!containsEdge(source,target,label)) return false;
+    mapOfVertices.get(source).remove(target);
+    return true;
   }
   
   @Override
   public void clear(){
-    throw new UnsupportedOperationException("Not supported yet.");
+    mapOfVertices.clear();
   }
 
 }

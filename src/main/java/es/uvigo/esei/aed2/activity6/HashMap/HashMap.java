@@ -130,7 +130,7 @@ public class HashMap<K,V> implements Map<K,V> {
   }
 
   private int hashFunc(K key){ //calculates index
-    return key.hashCode() % map.length;
+    return Math.abs(key.hashCode() % map.length);
   }
   private class MyIterator implements Iterator<V>{   
     private Iterator<K> keys = getKeys().iterator(); 
@@ -142,9 +142,13 @@ public class HashMap<K,V> implements Map<K,V> {
     public V next() {
         return get(keys.next());
     }
+    @Override
     public void remove() {
-        // TODO Auto-generated method stub
-        Iterator.super.remove();
+        HashMap.this.remove(keys.next());
+    }
+    @Override
+    public void forEachRemaining(Consumer<? super V> action) {
+      Iterator.super.forEachRemaining(action);
     }
   }
 
