@@ -50,9 +50,11 @@ public class Anagrams {
     return set;
   }
   private static String hashFunc(String str){
-    List<Character> chars = str.chars().mapToObj(z->((char) z)).toList();
-    chars.sort((o1, o2) -> (o1.compareTo(o2)));
-    return chars.toString();
+        char[] chars = words.toCharArray();
+        Arrays.sort(chars);
+        return new String(chars);
+    }
   }
+
 
 }
