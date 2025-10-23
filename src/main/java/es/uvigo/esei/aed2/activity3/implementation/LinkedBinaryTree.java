@@ -1,7 +1,5 @@
 package es.uvigo.esei.aed2.activity3.implementation;
 
-import java.lang.classfile.components.ClassPrinter.LeafNode;
-
 import es.uvigo.esei.aed2.tree.binary.BinaryTree;
 
 /*-

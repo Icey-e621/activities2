@@ -42,19 +42,17 @@ public class Anagrams {
     for (String word : words) {
       Set<String> wSet = new HashSet<String>();
       wSet.add(word);
-      Set<String> temp = map.put(hashFunc(word),wSet);
-      if (temp != null){
+      Set<String> temp = map.put(hashFunc(word), wSet);
+      if (temp != null) {
         wSet.addAll(temp);
       }
     }
     return set;
   }
-  private static String hashFunc(String str){
-        char[] chars = words.toCharArray();
-        Arrays.sort(chars);
-        return new String(chars);
-    }
+
+  private static String hashFunc(String str) {
+    char[] chars = str.toCharArray();
+    Arrays.sort(chars);
+    return new String(chars);
   }
-
-
 }
