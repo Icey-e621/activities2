@@ -46,7 +46,9 @@
     }
     
     public MapOfMap(Set<Vertex<T>> vertices, Set<Edge<T, E>> edges) {
-      throw new UnsupportedOperationException("Not supported yet.");
+      this();
+      vertices.forEach(z->addVertex(z));
+      edges.forEach(z->addEdge(z.getSource(), z.getTarget(), z.getLabel()));
     }
 
     @Override

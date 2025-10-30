@@ -1,5 +1,10 @@
 package es.uvigo.esei.aed2.activity6.relatedwords;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+
 /*-
  * #%L
  * AEDII - Activities
@@ -28,8 +33,12 @@ package es.uvigo.esei.aed2.activity6.relatedwords;
  */
 
 import java.util.List;
+import java.util.Set;
 
+import es.uvigo.esei.aed2.activity6.mapofmap.MapOfMap;
+import es.uvigo.esei.aed2.graph.Edge;
 import es.uvigo.esei.aed2.graph.Graph;
+import es.uvigo.esei.aed2.graph.Vertex;
 
 public class RelatedWords {
   /**
@@ -39,7 +48,31 @@ public class RelatedWords {
    * @return grafo de palabras relacionadas.
    */
   public static Graph<String, Integer> buildGraph(List<String> words) {
-    // TODO: Implementa la construcción del grafo de palabras relacionadas
-    return null;
+    Set<Vertex<String>> vertices = new LinkedHashSet<>();
+
+    words.forEach(word->vertices.add(new Vertex<String>(word)));
+
+    Set<Edge<String,Integer>> edges = new LinkedHashSet<>();
+    HashMap<Vertex<String>, List<Vertex<String>> > relations = new HashMap<>();
+
+    vertices.forEach(vert1->vertices.forEach(vert2->{
+      if (!vert1.equals(vert2) && IsRelated(vert1.getValue(),vert2.getValue())){
+        if (relations.get(vert1) == null) relations.put(vert1, new LinkedList<>());
+        relations.get(vert1).add(vert2);
+      }
+    }));
+
+    relations.forEach((vert1,vert_related)-> vert_related.forEach(related_vert->edges.add(new Edge<String,Integer>(vert1, related_vert, 0))));
+
+    return new MapOfMap<>(vertices,edges);
+  }
+  private static boolean IsRelated(String word1, String word2){
+    int ret = 0;
+    for (int i = 0; i < word1.length(); i++) {
+      if (ret <= 1 && word1.charAt(i) != word2.charAt(i)){
+        ret++;
+      }
+    }
+    return ret<=1;
   }
 }

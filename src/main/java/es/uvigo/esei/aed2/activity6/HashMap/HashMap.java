@@ -83,7 +83,7 @@ public class HashMap<K,V> implements Map<K,V> {
       }
     }
     if (!found){
-      map[hashFunc(key)].add(new Pair<K,V>(key, value));
+      map[hashFunc(key)].add(toPair);
       size++;
     }
   }
