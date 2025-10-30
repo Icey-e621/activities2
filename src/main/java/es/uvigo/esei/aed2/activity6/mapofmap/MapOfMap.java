@@ -108,7 +108,7 @@
     @Override
     public boolean addEdge(Vertex<T> source, Vertex<T> target, E label) throws NullPointerException, IllegalArgumentException{
       if (source.equals(target)) return false;
-      if (source == null || target == null) throw new NullPointerException("error here3");
+      if (source == null || target == null || label == null) throw new NullPointerException("error here3");
       if (!containsVertex(target) || !containsVertex(source)) throw new IllegalArgumentException("why u joining nothing with ur dad");
       if (this.containsEdge(source, target, label)) return false;
       this.mapOfVertices.get(source).add(target, label);
@@ -126,7 +126,7 @@
 
     @Override
     public boolean removeEdge(Vertex<T> source, Vertex<T> target, E label) throws NullPointerException {
-      if (source == null || target == null) throw new NullPointerException("error here3");
+      if (source == null || target == null || label == null) throw new NullPointerException("error here3");
       if (!containsEdge(source,target,label)) return false;
       mapOfVertices.get(source).remove(target);
       return true;
@@ -138,3 +138,4 @@
     }
 
   }
+
