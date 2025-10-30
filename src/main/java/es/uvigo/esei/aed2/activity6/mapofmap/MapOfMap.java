@@ -1,4 +1,4 @@
-null  package es.uvigo.esei.aed2.activity6.mapofmap;
+  package es.uvigo.esei.aed2.activity6.mapofmap;
 
   import java.util.HashSet;
   import java.util.Iterator;
