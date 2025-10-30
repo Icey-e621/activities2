@@ -53,10 +53,10 @@ public class RelatedWords {
     words.forEach(word->vertices.add(new Vertex<String>(word)));
 
     Set<Edge<String,Integer>> edges = new LinkedHashSet<>();
-    HashMap<Vertex<String>, List<Vertex<String>> > relations = new HashMap<>();
+    HashMap<Vertex<String>, List<Vertex<String>>> relations = new HashMap<>();
 
     vertices.forEach(vert1->vertices.forEach(vert2->{
-      if (!vert1.equals(vert2) && IsRelated(vert1.getValue(),vert2.getValue())){
+      if (IsRelated(vert1.getValue(),vert2.getValue())){
         if (relations.get(vert1) == null) relations.put(vert1, new LinkedList<>());
         relations.get(vert1).add(vert2);
       }
@@ -73,6 +73,6 @@ public class RelatedWords {
         ret++;
       }
     }
-    return ret<=1;
+    return ret==1;
   }
 }
