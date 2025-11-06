@@ -38,7 +38,13 @@
   import es.uvigo.esei.aed2.map.Map;
 
   public class MapOfMap<T, E> implements Graph<T, E> {
-
+  //   Este mapa funciono como 2 partes Y es un Par
+  //  HashMap [ Key | HashMap    [ Key            | Value ] ]
+  //         
+  //   __              __                      __
+  //  /V1\ ______|\   |   Vertice 2 | Valor      |
+  //  \__/       |/   |__ Objectivo | Conexion __|
+  //
     private final Map<Vertex<T>, Map<Vertex<T>, E>> mapOfVertices;
 
     public MapOfMap() {
@@ -140,5 +146,6 @@
     }
 
   }
+
 
 
