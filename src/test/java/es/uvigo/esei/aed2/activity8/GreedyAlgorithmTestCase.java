@@ -34,6 +34,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
 
@@ -96,6 +97,7 @@ public class GreedyAlgorithmTestCase {
     Map<Vertex<String>, String> resultGraph = GreedyAlgorithm
       .colourMap(this.dataGreedy.getGraphColour(), this.dataGreedy.getColours());
     
+    String a = this.dataGreedy.getGraphColour().toString();
     assertThat(resultGraph, is(equalToMap(expectedGraph)));
   }
 

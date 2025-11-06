@@ -223,12 +223,6 @@ edges:
   - from: FIVE
     to: FOUR
     value: 6
-  - from: TWO
-    to: FOUR
-    value: 6
-  - from: FOUR
-    to: TWO
-    value: 6
 """;
 
   private final static String GRAPH_SCHEDULER = """
@@ -287,7 +281,7 @@ edges:
     new Vertex<>("ONE"), new Vertex<>("TWO"), new Vertex<>("THREE"), new Vertex<>("FOUR"), new Vertex<>("FIVE"),
     new Vertex<>("SEIX")
   );
-  private final static List<String> VALUES_COLOUR = List.of("red", "yellow", "yellow", "blue", "red", "green");
+  private final static List<String> VALUES_COLOUR = List.of("red", "blue", "yellow", "blue", "red", "green");
   private final static String[] COLOURS = { "red", "blue", "green", "yellow" };
 
   private final static List<Integer> KEYS_CHANGE = List.of(500, 200);

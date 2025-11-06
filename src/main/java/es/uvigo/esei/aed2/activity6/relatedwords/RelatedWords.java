@@ -62,10 +62,10 @@ public class RelatedWords {
       }
     }));
 
-    relations.forEach((vert1,vert_related)-> vert_related.forEach(related_vert->edges.add(new Edge<String,Integer>(vert1, related_vert, 0))));
+    relations.forEach((vert1,vert_related) -> vert_related.forEach(related_vert->edges.add(new Edge<String,Integer>(vert1, related_vert, 0))));
 
     return new MapOfMap<>(vertices,edges);
-  }
+  } 
   private static boolean IsRelated(String word1, String word2){
     int ret = 0;
     for (int i = 0; i < word1.length(); i++) {

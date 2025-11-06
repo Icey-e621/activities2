@@ -26,11 +26,15 @@ package es.uvigo.esei.aed2.activity8;
  * #L%
  */
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import es.uvigo.esei.aed2.graph.Graph;
 import es.uvigo.esei.aed2.graph.Vertex;
+import es.uvigo.esei.aed2.map.HashMap;
 import es.uvigo.esei.aed2.map.Map;
 
 public class GreedyAlgorithm {
@@ -55,13 +59,27 @@ public class GreedyAlgorithm {
 
   // Exercise 4
   public static <T> Map<Vertex<T>, String> colourMap(Graph<T, Integer> graph, String[] colours) {
+    Map<Vertex<T>, String> map = new HashMap<>();
+    graph.getVertices().forEach(vert->map.add(vert, getColor(graph,map,vert,colours)));
 
-    return null;
+    return map;
+  }
+  private static <T> String getColor(Graph<T, Integer> graph, Map<Vertex<T>, String> map, Vertex<T> check, String[] colours){
+    List<String> list = new LinkedList<>();
+    for (String string : colours) {
+      list.add(string);
+    }
+
+    graph.getAdjacentsVertex(check).forEach(vert-> {
+      list.remove(map.get(vert));
+    });
+
+    return list.get(0);
   }
 
   // Exercise 5
   public static Map<Integer, Integer> giveChange(int amountReturned, Map<Integer, Integer> changeAvailable) {
-
+    changeAvailable.getKeys().parallelStream().sorted().collect(LinkedList::new,);
     return null;
   }
 
