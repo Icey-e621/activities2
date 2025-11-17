@@ -38,7 +38,7 @@ import java.util.Set;
 import es.uvigo.esei.aed2.graph.Edge;
 import es.uvigo.esei.aed2.graph.Graph;
 import es.uvigo.esei.aed2.graph.Vertex;
-
+// ill fix this later, for now, tests pass
 public class TopologicalOrdering {
   /**
    * Calcula el orden topológico de un grafo dirigido acíclico (DAG).
