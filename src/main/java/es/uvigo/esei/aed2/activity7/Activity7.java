@@ -30,7 +30,10 @@ package es.uvigo.esei.aed2.activity7;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import es.uvigo.esei.aed2.graph.Edge;
 import es.uvigo.esei.aed2.graph.Graph;
 import es.uvigo.esei.aed2.graph.Vertex;
 
@@ -38,43 +41,77 @@ public class Activity7 {
 
   //exercise 1
   public static <T, E> Set<Vertex<T>> getPredecessors(Graph<T, E> graph, Vertex<T> vertex) {
-    // TODO: Implementa la obtención de predecesores de un vértice en el grafo
-    return new HashSet<>();
+    Set<Vertex<T>> set = new HashSet<>();
+    graph.getEdges().forEach(edg -> {
+      if (edg.getTarget().equals(vertex)) set.add(edg.getSource());
+    });
+    return set;
   }
 
   //exercise 2
   public static <T, E> boolean isDrain(Graph<T, E> graph, Vertex<T> vertex) {
-    // TODO: Implementa la comprobación de si un vértice es sumidero
-    return false;
+    // return getPredecessors(graph, vertex).size() == graph.getVertices().size()-1; 
+    return graph.getEdges().parallelStream().map(t -> {
+      return t.getTarget().equals(vertex);
+    }).reduce(false, (a,b)-> a||b);
   }
   
   //exercise 3
   public static <T, E> boolean isRegular(Graph<T, E> graph) {
-    // TODO: Implementa la comprobación de si el grafo es regular
-    return false;
+    if (graph.isEmpty()) return true;
+    int standard = graph.getAdjacentsVertex(graph.getVertices().iterator().next()).size();
+    for (Vertex<T> vert : graph.getVertices()) {
+      if (standard!=graph.getAdjacentsVertex(vert).size()) return false;
+    }
+    return true;
   }
   
   //exercise 4
   public static <T, E> boolean isConnectedFromVertex(Graph<T, E> graph, Vertex<T> vertex) {
-    // TODO: Implementa la comprobación de si el grafo es conexo desde un vértice
-    return false;
+    Set<Vertex<T>> travel = new HashSet<>();
+    travel.add(vertex);
+    DFS(vertex, travel,graph.getEdges());
+    return travel.equals(graph.getVertices());
+  }
+  private static <T,E> void DFS(Vertex<T> vertex, Set<Vertex<T>> travelSet,Set<Edge<T,E>> gSet){
+    gSet.forEach(edge->{
+      if (edge.getSource().equals(vertex) && !travelSet.contains(edge.getTarget())){
+        travelSet.add(edge.getTarget());
+        DFS(edge.getTarget(), travelSet,gSet);
+      }
+    });
   }
 
   //exercise 5
   public static <T, E> boolean thereIsPathBetweenVertices(Graph<T, E> graph, Vertex<T> source, Vertex<T> target) {
-    // TODO: Implementa la comprobación de si existe un camino entre dos vértices
-    return false;
+    Set<Vertex<T>> travel = new HashSet<>();
+    travel.add(source);
+    DFS(source, travel, graph.getEdges());
+    return travel.contains(target);
   }
   
   //exercise 6
   public static <T, E> boolean isACycle(Graph<T, E> graph, List<Vertex<T>> path) {
-    // TODO: Implementa la comprobación de si una lista de vértices forma un ciclo en el grafo
-    return false;
+    Set<Vertex<T>> travel = new HashSet<>();
+    travel.add(path.get(0));
+    DFS(path.get(0), travel, graph.getEdges());
+    return travel.containsAll(path);
   }
   
   //exercise 7
   public static <T,E> int numberOfConnectedComponents(Graph<T,E> graph){
-    // TODO: Implementa el cálculo del número de componentes conexas en el grafo
-    return 0;
+    Set<Vertex<T>> visitedSet = graph.getVertices();
+    Set<Edge<T,E>> gSet = graph.getEdges(); // purely for efficiency
+    int num = 0;
+    
+    while (!visitedSet.isEmpty()) {
+      Set<Vertex<T>> travel = new HashSet<>();
+      Vertex<T> sVertex = visitedSet.iterator().next();
+      travel.add(sVertex);
+      DFS(sVertex, travel, gSet);
+      visitedSet.removeAll(travel);
+      num+=1;
+    }
+    return num;
   } 
 }

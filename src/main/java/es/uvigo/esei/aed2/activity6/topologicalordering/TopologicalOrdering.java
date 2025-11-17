@@ -1,5 +1,9 @@
 package es.uvigo.esei.aed2.activity6.topologicalordering;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+
 /*-
  * #%L
  * AEDII - Activities
@@ -28,7 +32,10 @@ package es.uvigo.esei.aed2.activity6.topologicalordering;
  */
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import es.uvigo.esei.aed2.graph.Edge;
 import es.uvigo.esei.aed2.graph.Graph;
 import es.uvigo.esei.aed2.graph.Vertex;
 
@@ -40,7 +47,31 @@ public class TopologicalOrdering {
    * @return lista de vértices en orden topológico.
    */
   public static <T, E> List<Vertex<T>> getTopologicalOrder(Graph<T, E> graph) {
-    // TODO: Implementa el cálculo del orden topológico de un grafo
-    return null;
+    Map<Vertex<T>, Integer> grados = new HashMap<>();
+    Set<Vertex<T>> vSet = graph.getVertices();
+
+    vSet.forEach(elem->grados.put(elem, getPredecessorNum(graph, elem)));
+    List<Vertex<T>> tempList = new LinkedList<>();
+    while (!grados.isEmpty()) {
+      if (grados.containsValue(0)){
+        grados.forEach((z,i) -> {
+          if (i==0){
+            tempList.add(z);
+          }
+        });
+        tempList.forEach(element->grados.remove(element));
+      }
+      graph.getAdjacentsVertex(tempList.get(0)).forEach(z->{
+        grados.replace(z, grados.get(z) == null ? -1 : grados.get(z)-1);
+      });
+    }
+    return tempList;
+  }
+  public static <T, E> int getPredecessorNum(Graph<T, E> graph, Vertex<T> vertex) {
+    Set<Vertex<T>> set = new HashSet<>();
+    graph.getEdges().forEach(edg -> {
+      if (edg.getTarget().equals(vertex)) set.add(edg.getSource());
+    });
+    return set.size();
   }
 }
