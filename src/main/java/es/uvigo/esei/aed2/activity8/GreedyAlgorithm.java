@@ -79,7 +79,6 @@ public class GreedyAlgorithm {
 
   // Exercise 5
   public static Map<Integer, Integer> giveChange(int amountReturned, Map<Integer, Integer> changeAvailable) {
-    changeAvailable.getKeys().parallelStream().sorted().collect(LinkedList::new,);
     return null;
   }
 

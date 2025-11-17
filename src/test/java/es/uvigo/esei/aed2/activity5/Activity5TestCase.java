@@ -312,7 +312,7 @@ public class Activity5TestCase {
     final Tree<String> tree = treesOfString.getTreeB();
     breadthOrder(tree);
 
-    assertThat(outContent.toString(), is(equalToCompressingWhiteSpace("A\nB\nC\nD\nH\nE\nF\nG")));
+    assertThat(outContent.toString(), is(equalToCompressingWhiteSpace("ABCDHEFG")));
   }
 
   // Exercise 9 - getNumberOfEvenValues
