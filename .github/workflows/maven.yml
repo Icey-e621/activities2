@@ -31,58 +31,58 @@ jobs:
         
     - name: Test Activity 1
       run: mvn test -Dtest=Activity1TestCase
-      
+      continue-on-error: true
     - name: Test Activity 2
       run: mvn test -Dtest=Activity2TestCase
-      
+      continue-on-error: true
     - name: Test Activity 3 Use
       run: mvn test -Dtest=Activity3TestCase
-
+      continue-on-error: true
     - name: Test Activity 3 implementation
       run: mvn test -Dtest=LinkedBinaryTreeTestCase
-
+      continue-on-error: true
     - name: Test Activity 3 Tree Functional implementation
       run: mvn test -Dtest=LinkedBinaryTreeWithFunctionalTestCase
-      
+      continue-on-error: true
     - name: Test Activity 3 Tree FUncional Use
       run: mvn test -Dtest=Activity3FunctionalTestCase
-      
+      continue-on-error: true
     - name: Test Activity 4 BinaryMaxHeapTestCase
       run: mvn test -Dtest=BinaryMaxHeapTestCase
-
+      continue-on-error: true
     - name: Test Activity 4 HeapSortTestCase
       run: mvn test -Dtest=HeapSortTestCase
-
+      continue-on-error: true
     - name: Test Activity 5
       run: mvn test -Dtest=Activity5TestCase
-
+      continue-on-error: true
     - name: Test Activity 6 HashMapTestCase
       run: mvn test -Dtest=HashMapTestCase
-
+      continue-on-error: true
     - name: Test Activity 6 MapOfMapTestCase
       run: mvn test -Dtest=MapOfMapTestCase
-
+      continue-on-error: true
     - name: Test Activity 6 RelatedWordsTestCase
       run: mvn test -Dtest=RelatedWordsTestCase
-
+      continue-on-error: true
     - name: Test Activity 6 TopologicalOrderingTestCase
       run: mvn test -Dtest=TopologicalOrderingTestCase
-
+      continue-on-error: true
     - name: Test Activity 7
       run: mvn test -Dtest=Activity7TestCase
-
+      continue-on-error: true
     - name: Test Activity 8 GreedyAlgorithmTestCase
       run: mvn test -Dtest=MaxHeapTestCase
-
+      continue-on-error: true
     - name: Test Activity 9 BacktrackingAlgorithmTestCase
       run: mvn test -Dtest=BacktrackingAlgorithmTestCase
-
+      continue-on-error: true
     - name: Test Activity 10 DivideAndConquerAlgorithmTestCase
       run: mvn test -Dtest=DivideAndConquerAlgorithmTestCase
-      
+      continue-on-error: true
     - name: Build and Test ALL
       run: mvn -B clean verify
-
+    
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
       uses: advanced-security/maven-dependency-submission-action@571e99aab1055c2e71a1e2309b9691de18d6b7d6
