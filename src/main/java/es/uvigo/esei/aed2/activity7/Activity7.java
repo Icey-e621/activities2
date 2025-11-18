@@ -92,8 +92,9 @@ public class Activity7 {
   
   //exercise 6
   public static <T, E> boolean isACycle(Graph<T, E> graph, List<Vertex<T>> path) {
+    if (path.size()==2) return false;
     Set<Vertex<T>> travel = new HashSet<>();
-    for (Vertex<T> vertex : path) {
+    for (Vertex<T> vertex : path.subList(1, path.size()-2)) {
       if (travel.contains(vertex)){
         return false;
       }else{
