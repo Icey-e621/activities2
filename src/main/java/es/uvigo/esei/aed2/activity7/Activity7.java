@@ -50,10 +50,6 @@ public class Activity7 {
   public static <T, E> boolean isDrain(Graph<T, E> graph, Vertex<T> vertex) {
     // alternative solution, solución alternativa
     return getPredecessors(graph, vertex).size() == graph.getVertices().size()-1; 
-    // solución ~Fancy~
-    // return graph.getEdges().parallelStream().map(t -> {
-    //   return t.getTarget().equals(vertex);
-    // }).reduce(false, (a,b)-> a||b);
   }
   
   //exercise 3
