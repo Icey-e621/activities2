@@ -1,7 +1,6 @@
 package es.uvigo.esei.aed2.activity6.relatedwords;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 

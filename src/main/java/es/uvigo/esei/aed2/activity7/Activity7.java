@@ -49,11 +49,11 @@ public class Activity7 {
   //exercise 2
   public static <T, E> boolean isDrain(Graph<T, E> graph, Vertex<T> vertex) {
     // alternative solution, solución alternativa
-    // return getPredecessors(graph, vertex).size() == graph.getVertices().size()-1; 
+    return getPredecessors(graph, vertex).size() == graph.getVertices().size()-1; 
     // solución ~Fancy~
-    return graph.getEdges().parallelStream().map(t -> {
-      return t.getTarget().equals(vertex);
-    }).reduce(false, (a,b)-> a||b);
+    // return graph.getEdges().parallelStream().map(t -> {
+    //   return t.getTarget().equals(vertex);
+    // }).reduce(false, (a,b)-> a||b);
   }
   
   //exercise 3
@@ -93,6 +93,14 @@ public class Activity7 {
   //exercise 6
   public static <T, E> boolean isACycle(Graph<T, E> graph, List<Vertex<T>> path) {
     Set<Vertex<T>> travel = new HashSet<>();
+    for (Vertex<T> vertex : path) {
+      if (travel.contains(vertex)){
+        return false;
+      }else{
+        travel.add(vertex);
+      }
+    }
+    travel.clear();
     travel.add(path.get(0));
     DFS(path.get(0), travel, graph.getEdges());
     return travel.containsAll(path);
