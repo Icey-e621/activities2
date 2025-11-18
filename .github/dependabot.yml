@@ -9,3 +9,11 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "monthly"
+    registries:
+      - github
+registries:
+  github:
+    type: git
+    url: https://github.com/Icey-e621/activities2.git
+    username: Dependabot 🤖 # username doesn't matter
+    password: ${{ secrets.GH_TOKEN }} # dependabot secret
