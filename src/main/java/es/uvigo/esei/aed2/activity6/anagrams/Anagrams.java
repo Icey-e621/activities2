@@ -1,7 +1,6 @@
 package es.uvigo.esei.aed2.activity6.anagrams;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -39,19 +38,24 @@ public class Anagrams {
   public static Set<Set<String>> getAnagrams(List<String> words) {
     Set<Set<String>> set = new HashSet<>();
     HashMap<String, Set<String>> map = new HashMap<>();
+
     for (String word : words) {
-      Set<String> wSet = new HashSet<String>();
-      wSet.add(word);
-      Set<String> temp = map.put(hashFunc(word), wSet);
-      if (temp != null) {
-        wSet.addAll(temp);
+      //create a word set of all the words that contain the same letters (anagrams) or get the already existing one    
+      Set<String> wSet = map.get(sortLetters(word));
+      if (wSet == null){
+        wSet = new HashSet<>();
+        wSet.add(word);
+        map.put(sortLetters(word), wSet);
+      }else{
+        //add current word
+        wSet.add(word);
       }
     }
     map.values().forEach(z->set.add(z));
     return set;
   }
 
-  private static String hashFunc(String str) {
+  private static String sortLetters(String str) {
     char[] chars = str.toCharArray();
     Arrays.sort(chars);
     return new String(chars);
