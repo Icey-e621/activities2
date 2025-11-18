@@ -16,4 +16,4 @@ registries:
     type: git
     url: https://github.com
     username: Dependabot 🤖 # username doesn't matter
-    password: ${{ secrets.GH_TOKEN }} # dependabot secret
+    password: ${{ secrets.GH_DEPENDABOT_SECRET }} # dependabot secret
