@@ -94,14 +94,14 @@ public class Activity5 {
 
   //exercise 6
   public static <T> int getGrade(Tree<T> tree) {
-    if (nullCheck(tree)) return -1;
+    if (nullCheck(tree)) return 0;
     if (!tree.hasChildren() && !tree.hasRightSibling()) return 1;
     return Math.max(1+getGrade(tree.getRightSibling()), getGrade(tree.getLeftMostChild()));
   }
 
   //exercise 7
   public static <T> int getHeight(Tree<T> tree) {
-    if (nullCheck(tree)) return -1;
+    if (nullCheck(tree)) return 0;
     if (!tree.hasChildren() && !tree.hasRightSibling()) return 0;
     return Math.max(1+getHeight(tree.getLeftMostChild()), getHeight(tree.getRightSibling()));
   }
