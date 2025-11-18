@@ -38,6 +38,7 @@ import java.util.Set;
 import es.uvigo.esei.aed2.graph.Edge;
 import es.uvigo.esei.aed2.graph.Graph;
 import es.uvigo.esei.aed2.graph.Vertex;
+
 // ill fix this later, for now, tests pass
 public class TopologicalOrdering {
   /**
@@ -50,27 +51,35 @@ public class TopologicalOrdering {
     Map<Vertex<T>, Integer> grados = new HashMap<>();
     Set<Vertex<T>> vSet = graph.getVertices();
 
-    vSet.forEach(elem->grados.put(elem, getPredecessorNum(graph, elem)));
-    List<Vertex<T>> tempList = new LinkedList<>();
+    vSet.forEach(elem -> grados.put(elem, getPredecessorNum(graph, elem)));
+    List<Vertex<T>> FinalList = new LinkedList<>();
+    List<Vertex<T>> ZeroList = new LinkedList<>();
+    
     while (!grados.isEmpty()) {
-      if (grados.containsValue(0)){
-        grados.forEach((z,i) -> {
-          if (i==0){
-            tempList.add(z);
+      while (grados.containsValue(0)) {
+        grados.forEach((vert1, i) -> {
+          if (i == 0) {
+            ZeroList.add(vert1);
+            graph.getAdjacentsVertex(vert1).forEach(vert2 -> {
+              grados.replace(vert2, grados.get(vert2)-1);
+            });
           }
         });
-        tempList.forEach(element->grados.remove(element));
+        ZeroList.forEach(element-> {
+          FinalList.add(element);
+          grados.remove(element);
+        });
+        ZeroList.clear();
       }
-      graph.getAdjacentsVertex(tempList.get(0)).forEach(z->{
-        grados.replace(z, grados.get(z) == null ? -1 : grados.get(z)-1);
-      });
     }
-    return tempList;
+    return FinalList;
   }
+
   public static <T, E> int getPredecessorNum(Graph<T, E> graph, Vertex<T> vertex) {
     Set<Vertex<T>> set = new HashSet<>();
     graph.getEdges().forEach(edg -> {
-      if (edg.getTarget().equals(vertex)) set.add(edg.getSource());
+      if (edg.getTarget().equals(vertex))
+        set.add(edg.getSource());
     });
     return set.size();
   }

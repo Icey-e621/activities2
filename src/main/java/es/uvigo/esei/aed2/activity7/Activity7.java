@@ -30,8 +30,6 @@ package es.uvigo.esei.aed2.activity7;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 import es.uvigo.esei.aed2.graph.Edge;
 import es.uvigo.esei.aed2.graph.Graph;
@@ -50,7 +48,9 @@ public class Activity7 {
 
   //exercise 2
   public static <T, E> boolean isDrain(Graph<T, E> graph, Vertex<T> vertex) {
+    // alternative solution, solución alternativa
     // return getPredecessors(graph, vertex).size() == graph.getVertices().size()-1; 
+    // solución ~Fancy~
     return graph.getEdges().parallelStream().map(t -> {
       return t.getTarget().equals(vertex);
     }).reduce(false, (a,b)-> a||b);
