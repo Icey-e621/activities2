@@ -133,6 +133,16 @@ public class HashMap<K, V> implements Map<K, V> {
       list.clear();
     }
   }
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    for (List<Pair<K,V>> list : map) {
+      for (Pair<K,V> pair : list) {
+        sb.append(pair.k).append(":").append(pair.v);
+      }
+    }
+    return sb.toString();
+  }
 
   //arbitrary hash func
   private int hashFunc(K key) { // calculates index

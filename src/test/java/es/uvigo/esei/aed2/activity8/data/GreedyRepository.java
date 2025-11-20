@@ -301,7 +301,7 @@ edges:
 
   private final static List<Vertex<String>> KEYS_SCHEDULE = List
     .of(new Vertex<>("SO"), new Vertex<>("BD"), new Vertex<>("EST"), new Vertex<>("AEDII"), new Vertex<>("AL"));
-  private final static List<String> VALUES_SCHEDULE = List.of("thursday", "monday", "monday", "tuesday", "monday");
+  private final static List<String> VALUES_SCHEDULE = List.of("wednesday", "monday", "monday", "tuesday", "monday");
   private final static String[] DAYS_WEEK = { "monday", "tuesday", "wednesday", "thursday", "friday" };
 
   private final List<Activity> listActivities = new LinkedList<>();
