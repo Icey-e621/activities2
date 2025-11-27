@@ -130,6 +130,20 @@ public class BacktrackingAlgorithm {
 
   // Exercise 5
   public static boolean solveSudoku(int[][] board) {
+    int i = 0;
+    int j = 0;
+    int value = 1;
+    boolean objective = false;
+    while (!objective) {
+      if (canInsert(board, i, j, value)){
+        board[j][i]=value;
+        if (j >= board.length-1 && i >= board[0].length-1){
+          objective = true;
+        }else {
+          objective = solveSudoku(board);
+        }
+      }
+    }
 
     return true;
   }
