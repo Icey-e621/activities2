@@ -40,7 +40,7 @@ public class BacktrackingAlgorithm {
   public static boolean giveChange(
     int amountReturned, Map<Integer, Integer> changeAvailable, Map<Integer, Integer> solution
   ) {
-
+    
     return false;
   }
 
@@ -52,6 +52,26 @@ public class BacktrackingAlgorithm {
 
   // Exercise 3
   public static boolean subgroups(int[] values, int[] solution, int result, int index) {
+    if (result==0){
+      return true;
+    }
+    if (index > solution.length-1) return false;
+    if (result-values[index] < 0){
+      if (subgroups(values, solution, result, index+1)){
+        return true;
+      }
+      solution[index]=0;
+    }
+    else{
+      solution[index]=1;
+      if (subgroups(values, solution, result-values[index], index+1)){
+        return true;
+      }
+      solution[index]=0;
+      if (subgroups(values, solution, result, index+1)){
+        return true;
+      }
+    }
 
     return false;
   }
@@ -76,8 +96,36 @@ public class BacktrackingAlgorithm {
   }
 
   public static boolean placeQueens(int queen, int[] board) {
+    boolean objective = false;
+    int pos = 0;
+    while (!objective && pos < 8 ) {
+      if (goodPlace(queen, pos, board)){
+        board[queen]=pos;
+        if (queen+1>board.length-1){
+          objective=true;
+        }
+        else {
+          objective = placeQueens(queen+1, board);
+          if (!objective){
+            board[queen] = -1;
+          }
+        }
+      }
+      pos++;
+    }
 
-    return false;
+    // alternative
+    // if (board.length-1 < queen) return true;
+    // for (int i = 0; i < board.length; i++) {
+    //   if (goodPlace(queen, i, board)){
+    //     board[queen]=i;
+    //     if (placeQueens(queen+1, board)){
+    //       return true;
+    //     }
+    //   }
+    // }
+
+    return objective;
   }
 
   // Exercise 5
